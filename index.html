@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thule Tarzı Mega Menü</title>
+    <style>
+        /* THULE TARZI TEMEL STİLLER (Minimalist, Sans-serif) */
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #3d3d3d;
+        }
+
+        /* HEADER */
+        header {
+            background-color: #fff;
+            border-bottom: 1px solid #e4e4e4;
+            padding: 0 40px;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            height: 80px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            margin-right: 60px;
+            cursor: pointer;
+            letter-spacing: -1px;
+            color: #000;
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            color: #000;
+            font-size: 15px;
+            font-weight: 600;
+            padding: 0 20px;
+            height: 100%;
+            cursor: pointer;
+            transition: color 0.2s;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-btn:hover, .nav-btn.active-btn {
+            color: #666;
+        }
+
+        /* MEGA MENÜ OVERLAY */
+        .mega-menu-overlay {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: #fff;
+            box-shadow: 0 40px 100px 0 rgba(0,0,0,0.2);
+            display: none;
+            padding: 50px 80px;
+            box-sizing: border-box;
+            z-index: 1000;
+            min-height: 400px;
+            border-top: 1px solid #e4e4e4;
+        }
+
+        .mega-menu-overlay.active {
+            display: flex;
+            gap: 60px;
+        }
+
+        /* KOLONLAR VE LİSTELER */
+        .menu-column {
+            flex: 0 0 250px; /* Sabit kolon genişliği */
+        }
+
+        .menu-column h3 {
+            margin-top: 0;
+            padding-bottom: 15px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #000;
+            border-bottom: 1px solid #f1f1f1;
+            margin-bottom: 20px;
+        }
+
+        .menu-column ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* ANA KATEGORİ STİLİ */
+        .category-item {
+            padding: 0;
+            color: #000;
+            font-weight: 600;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+
+        /* ALT KATEGORİ STİLİ */
+        .sub-category-list {
+            padding-left: 0 !important;
+            margin-top: 10px !important;
+        }
+
+        .sub-category-list li {
+            font-weight: 400;
+            font-size: 14px;
+            padding: 6px 0 !important;
+            color: #666;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .sub-category-list li:hover {
+            color: #000;
+            text-decoration: underline;
+        }
+
+        /* AKORDİYON (AÇILIR/KAPANIR) ALT KATEGORİ STİLLERİ */
+        .nested-sub-category {
+            display: none;
+            padding-left: 15px !important;
+            margin-top: 5px !important;
+            list-style: none;
+            padding-bottom: 5px;
+            border-left: 2px solid #f1f1f1; /* Sol tarafta hafif bir çizgi */
+            margin-left: 5px;
+        }
+
+        .nested-sub-category.open {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .expandable-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-right: 15px;
+            color: #666;
+        }
+
+        .expandable-title:hover {
+            color: #000;
+        }
+
+        .expandable-title::after {
+            content: '+'; /* Thule tarzı zarif ikonlar */
+            font-size: 16px;
+            font-weight: 400;
+            transition: transform 0.3s;
+        }
+
+        .expandable-title.open::after {
+            content: '−';
+        }
+
+        .expandable-title.open {
+            color: #000;
+            font-weight: 600;
+        }
+
+        /* SAYFA İÇERİĞİ */
+        .content {
+            padding: 80px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .content h1 {
+            font-size: 36px;
+            font-weight: 700;
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav id="main-nav">
+            <div class="logo">ÖrnekSite</div>
+            <!-- Ana menü butonları buraya eklenecek -->
+        </nav>
+        
+        <!-- Açılır mega menü konteyneri -->
+        <div id="mega-menu-container" class="mega-menu-overlay"></div>
+    </header>
+
+    <div class="content">
+        <h1>Thule Tarzı Tasarım Testi</h1>
+        <p>Beyaz arka plan, siyah-gri metinler, geniş iç boşluklar ve akordiyon menü yapısı uygulandı. "Bisiklet Taşıyıcılar > Çeki Demiri Taşıyıcıları > 2 Bisikletlik Taşıyıcılar" yolunu izleyerek akordiyonu test edebilirsiniz.</p>
+    </div>
+
+    <script>
+        const siteData = {
+            "Ürünler": [
+                {
+                    "title": "Bisiklet Taşıyıcılar",
+                    "items": [
+                        {
+                            "name": "Çeki Demiri Taşıyıcıları",
+                            "subItems": [
+                                {
+                                    "name": "2 Bisikletlik Taşıyıcılar",
+                                    "subItems": ["Thule Epos 2", "Thule EasyFold XT 2", "Thule VeloSpace XT 2"]
+                                },
+                                {
+                                    "name": "3 Bisikletlik Taşıyıcılar",
+                                    "subItems": ["Thule Epos 3", "Thule EasyFold XT 3"]
+                                },
+                                "Aksesuarlar"
+                            ]
+                        },
+                        {
+                            "name": "Tavan Taşıyıcıları",
+                            "subItems": ["Dik Tavan Taşıyıcılar", "Çataldan Taşıyıcılar"]
+                        }
+                    ]
+                },
+                {
+                    "title": "Bebek ve Çocuk",
+                    "items": [
+                        {
+                            "name": "Bebek Arabaları",
+                            "subItems": ["Koşu Arabaları", "İkiz Bebek Arabaları"]
+                        },
+                        {
+                            "name": "Çocuk Bisiklet Koltukları",
+                            "subItems": ["Ön Koltuklar", "Arka Koltuklar"]
+                        }
+                    ]
+                },
+                {
+                    "title": "Çantalar ve Valizler",
+                    "items": [
+                        {
+                            "name": "Seyahat Çantaları",
+                            "subItems": ["Sırt Çantaları", "Tekerlekli Valizler"]
+                        }
+                    ]
+                }
+            ],
+            "Aktiviteler": [
+                {
+                    "title": "Doğa Sporları",
+                    "items": [
+                        {
+                            "name": "Kamp ve Karavan",
+                            "subItems": ["Araç Üstü Çadırlar", "Karavan Tenteleri", "Aksesuarlar"]
+                        }
+                    ]
+                }
+            ]
+        };
+
+        const navBar = document.getElementById('main-nav');
+        const megaMenuContainer = document.getElementById('mega-menu-container');
+        let currentActiveMenu = null;
+        let activeNavButton = null;
+
+        Object.keys(siteData).forEach(menuAdı => {
+            const btn = document.createElement('button');
+            btn.className = 'nav-btn';
+            btn.textContent = menuAdı;
+            
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation(); 
+                
+                if (currentActiveMenu === menuAdı) {
+                    megaMenuContainer.classList.remove('active');
+                    btn.classList.remove('active-btn');
+                    currentActiveMenu = null;
+                    activeNavButton = null;
+                    return;
+                }
+
+                if(activeNavButton) activeNavButton.classList.remove('active-btn');
+                
+                currentActiveMenu = menuAdı;
+                activeNavButton = btn;
+                btn.classList.add('active-btn');
+                
+                megaMenuContainer.innerHTML = ''; 
+
+                siteData[menuAdı].forEach(kolonVerisi => {
+                    const column = document.createElement('div');
+                    column.className = 'menu-column';
+
+                    const baslik = document.createElement('h3');
+                    baslik.textContent = kolonVerisi.title;
+                    column.appendChild(baslik);
+
+                    const anaListe = document.createElement('ul');
+                    
+                    kolonVerisi.items.forEach(kategori => {
+                        const li = document.createElement('li');
+                        li.className = 'category-item';
+                        
+                        // Kategori Başlığı
+                        const catTitle = document.createElement('div');
+                        catTitle.textContent = kategori.name;
+                        li.appendChild(catTitle);
+
+                        if (kategori.subItems && kategori.subItems.length > 0) {
+                            const altListe = document.createElement('ul');
+                            altListe.className = 'sub-category-list';
+                            
+                            kategori.subItems.forEach(altItem => {
+                                const altLi = document.createElement('li');
+                                
+                                if (typeof altItem === 'string') {
+                                    altLi.textContent = altItem;
+                                } else {
+                                    const titleSpan = document.createElement('div');
+                                    titleSpan.className = 'expandable-title';
+                                    titleSpan.textContent = altItem.name;
+                                    altLi.appendChild(titleSpan);
+
+                                    const nestedUl = document.createElement('ul');
+                                    nestedUl.className = 'nested-sub-category';
+                                    
+                                    altItem.subItems.forEach(subSubItem => {
+                                        const subSubLi = document.createElement('li');
+                                        subSubLi.textContent = subSubItem;
+                                        nestedUl.appendChild(subSubLi);
+                                    });
+                                    
+                                    altLi.appendChild(nestedUl);
+
+                                    titleSpan.addEventListener('click', (e) => {
+                                        e.stopPropagation();
+                                        
+                                        const isCurrentlyOpen = nestedUl.classList.contains('open');
+                                        
+                                        // Diğer açık olan tüm alt kategorileri bul ve kapat
+                                        const allOpenUls = megaMenuContainer.querySelectorAll('.nested-sub-category.open');
+                                        const allOpenTitles = megaMenuContainer.querySelectorAll('.expandable-title.open');
+                                        
+                                        allOpenUls.forEach(ul => ul.classList.remove('open'));
+                                        allOpenTitles.forEach(t => t.classList.remove('open'));
+                                        
+                                        // Eğer tıklanan önceden açık değilse, şimdi aç
+                                        if (!isCurrentlyOpen) {
+                                            nestedUl.classList.add('open');
+                                            titleSpan.classList.add('open');
+                                        }
+                                    });
+                                }
+
+                                altListe.appendChild(altLi);
+                            });
+                            
+                            li.appendChild(altListe);
+                        }
+
+                        anaListe.appendChild(li);
+                    });
+
+                    column.appendChild(anaListe);
+                    megaMenuContainer.appendChild(column);
+                });
+
+                megaMenuContainer.classList.add('active');
+            });
+
+            navBar.appendChild(btn);
+        });
+
+        document.body.addEventListener('click', (e) => {
+            if (!megaMenuContainer.contains(e.target)) {
+                megaMenuContainer.classList.remove('active');
+                if(activeNavButton) activeNavButton.classList.remove('active-btn');
+                currentActiveMenu = null;
+                activeNavButton = null;
+            }
+        });
+
+        megaMenuContainer.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    </script>
+</body>
+</html>
